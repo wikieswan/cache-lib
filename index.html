@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>cache libs</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<h1>cache libs</h1>
+	<button onclick="clearLocalStorage()" >clearLocalsStorage</button>
+</body>
+</html>
+<script type="text/javascript">
+
+	var _jQuery = localStorage.getItem('jQuery');
+	if(_jQuery===null){
+		console.log('localStorage does not cache jQuery,so we need to load jquery manually');
+		doAjax('http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js',function(data){
+			localStorage.setItem('jQuery',data);
+			eval(data);
+		});
+	}
+	else{
+		console.log('localStorage caches jQuery,we use it');
+		eval(_jQuery);
+	}
+	function clearLocalStorage() {
+		localStorage.removeItem('jQuery');
+	}
+	
+	function doAjax (url,callback) {
+		var xmlhttp;
+		if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+		  xmlhttp=new XMLHttpRequest();
+		}
+		else{// code for IE6, IE5
+		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.open("GET",url,true);
+		xmlhttp.send();
+		xmlhttp.onreadystatechange=function(){
+		    if(xmlhttp.readyState===4 && xmlhttp.status===200){
+			    callback && callback(xmlhttp.responseText);
+		    }
+		}
+	}
+
+</script>
