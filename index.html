@@ -6,20 +6,32 @@
 </head>
 <body>
 	<h1>cache libs</h1>
-	<button onclick="clearLocalStorage()" >clearLocalsStorage</button>
+	<button onclick="clearLocalStorage()" >clearLocalStorage</button>
 </body>
 </html>
 <script src="lsLoader.js"></script>
 <script type="text/javascript">
-	var _jquery = 'http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.js',
-		_underscore = 'http://cdn.staticfile.org/underscore.js/1.7.0/underscore-min.js';
 	
 	function clearLocalStorage() {
-		lsLoader.remove('jqueryUrl');
+		$lsLoader.clear();
 	}
 	
-	lsLoader
-	.load('jquery',_jquery)
-	.load('underscore',_underscore)
-
+	$lsLoader
+	.load({
+			name : 'jquery',
+			url : 'http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.js',
+			async: false,
+			version : '2.1.1',
+			success: function () {}
+		})
+	.load({
+			name : 'underscore',
+			url : 'http://cdn.staticfile.org/underscore.js/1.7.0/underscore-min.js',
+			async: true,
+			version : '1.7.0',
+			success: function () {}
+		})
+	
+	//console.log($('body'));
+	
 </script>
