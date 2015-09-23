@@ -1,5 +1,6 @@
 (function(window){
-	var util;
+	var util,
+		VERSION = '0.1.0';
 	function Util () {
 		
 	}
@@ -31,56 +32,55 @@
 	util = new Util();
 
 
-	function LsLoader () {
-
-	}
-	LsLoader.prototype.load = function  (libName,libUrl) {
-		var _lib = null;
-		try{
-			_lib = localStorage.getItem('lsLoader_'+libName);
-			if(_lib===null){
-				console.log('localStorage does not cache '+libName+' lib,so we need to load '+libName+' manually!');
-				util.ajax(libUrl,function(data){
-					eval(data);
-					localStorage.setItem('lsLoader_'+libName,data);
-				});
-			}
-			else{
-				console.log('localStorage caches '+libName+',we use it!');
-				eval(_lib);
-			}
-		}
-		catch(e){ // disabled localstorage 
-			/**
-			Firefox： 地址栏输入 about:config, 将 dom.storage.enabled 的值设置为 false；
-			Chrome: 设置 → 隐私设置 → 内容设置 → 阻止网站设置任何数据
-			**/
-			console.log('your browser disabled localstorage ',e.message)
-			util.jsLoader(libUrl);
-		}
-	} 
-	LsLoader.prototype.remove = function  (libName) {
-		try{
-			localStorage.removeItem('lsLoader_'+libName);
-		}
-		catch(e){ // disabled localstorage 
-			console.log('your browser disabled localstorage ',e.message)
-		}
-		
-	}
-	LsLoader.prototype.clear = function  () {
-		try{
-			for(var i in localStorage){
-				if(i.indexOf('lsLoader_')>-1){
-					localStorage.removeItem(i);
+	var lsLoader = {
+		load : function (libName,libUrl) {
+			var _lib = null;
+			try{
+				_lib = localStorage.getItem('lsLoader_'+libName);
+				if(_lib===null){
+					console.log('localStorage does not cache '+libName+' lib,so we need to load '+libName+' manually!');
+					util.ajax(libUrl,function(data){
+						eval(data);
+						localStorage.setItem('lsLoader_'+libName,data);
+					});
+				}
+				else{
+					console.log('localStorage caches '+libName+',we use it!');
+					eval(_lib);
 				}
 			}
-		}
-		catch(e){ // disabled localstorage 
-			console.log('your browser disabled localstorage ',e.message)
-		}
-		
+			catch(e){ // disabled localstorage 
+				console.log('your browser disabled localstorage ',e.message)
+				util.jsLoader(libUrl);
+			}
+			return this;
+		},
+		remove : function  (libName) {
+			try{
+				localStorage.removeItem('lsLoader_'+libName);
+			}
+			catch(e){ // disabled localstorage 
+				console.log('your browser disabled localstorage ',e.message)
+			}
+			return this;
+		},
+		clear : function  () {
+			try{
+				for(var i in localStorage){
+					if(i.indexOf('lsLoader_')>-1){
+						localStorage.removeItem(i);
+					}
+				}
+			}
+			catch(e){ // disabled localstorage 
+				console.log('your browser disabled localstorage ',e.message)
+			}
+			return this;
+		},
+		version : VERSION
+
 	}
-	window.lsLoader = new LsLoader();
+	
+	window.lsLoader = lsLoader;
 	
 })(this); 

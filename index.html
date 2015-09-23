@@ -11,12 +11,15 @@
 </html>
 <script src="lsLoader.js"></script>
 <script type="text/javascript">
-	var jqueryUrl = 'http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js';
+	var _jquery = 'http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.js',
+		_underscore = 'http://cdn.staticfile.org/underscore.js/1.7.0/underscore-min.js';
 	
 	function clearLocalStorage() {
 		lsLoader.remove('jqueryUrl');
 	}
 	
-	lsLoader.load('jqueryUrl',jqueryUrl)
+	lsLoader
+	.load('jquery',_jquery)
+	.load('underscore',_underscore)
 
 </script>
