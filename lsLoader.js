@@ -118,16 +118,11 @@
 				if((opts.version!==this.defaults.version&&opts.version!==_version)|| _lib===null){
 					//console.log('localStorage does not cache '+opts.name+' lib,so we need to load '+opts.name+' manually!');
 					util.ajax(opts.url,function(data){
-						console.log(1)
 						eval(data);
-						console.log(2)
 						opts.success();
-						console.log(3)
 						try{
 							localStorage.setItem(_libName,data);
 							localStorage.setItem(_libVersion,opts.version);
-							console.log(_libVersion,opts.version)
-							console.log(localStorage.getItem(_libVersion));
 						}
 						catch(e){
 							console.log(e.message)
