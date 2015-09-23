@@ -9,39 +9,14 @@
 	<button onclick="clearLocalStorage()" >clearLocalsStorage</button>
 </body>
 </html>
+<script src="lsLoader.js"></script>
 <script type="text/javascript">
-
-	var _jQuery = localStorage.getItem('jQuery');
-	if(_jQuery===null){
-		console.log('localStorage does not cache jQuery,so we need to load jquery manually');
-		doAjax('http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js',function(data){
-			localStorage.setItem('jQuery',data);
-			eval(data);
-		});
-	}
-	else{
-		console.log('localStorage caches jQuery,we use it');
-		eval(_jQuery);
-	}
+	var jqueryUrl = 'http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js';
+	
 	function clearLocalStorage() {
-		localStorage.removeItem('jQuery');
+		lsLoader.remove('jqueryUrl');
 	}
 	
-	function doAjax (url,callback) {
-		var xmlhttp;
-		if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
-		  xmlhttp=new XMLHttpRequest();
-		}
-		else{// code for IE6, IE5
-		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.open("GET",url,true);
-		xmlhttp.send();
-		xmlhttp.onreadystatechange=function(){
-		    if(xmlhttp.readyState===4 && xmlhttp.status===200){
-			    callback && callback(xmlhttp.responseText);
-		    }
-		}
-	}
+	lsLoader.load('jqueryUrl',jqueryUrl)
 
 </script>
